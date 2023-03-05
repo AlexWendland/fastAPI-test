@@ -8,10 +8,15 @@ Author: Alex Wendland
 from sqlalchemy import Boolean, Column, Integer, String
 
 # This is the database class.
-from .database import Base
+from .database import session_base
+
 
 # This is the model for the urls being stored in the database.
-class URL(Base):
+class URL(session_base):
+    """
+    This is the model for the urls being stored in the database.
+    """
+
     # By default table names are plurals of the class name.
     __tablename__ = "urls"
 

@@ -6,16 +6,31 @@ Author: Alex Wendland
 
 from pydantic import BaseModel
 
-class URLBase(BaseModel):
+
+class URL(BaseModel):
+    """
+    This is the base schema for the URL.
+    """
+
     target_url: str
 
-class URL(URLBase):
+
+class EnrichedURL(URL):
+    """
+    This contains the URL with metadata.
+    """
+
     is_active: bool
     clicks: int
 
     class Config:
         orm_mode = True
 
-class URLInfo(URL):
+
+class URLInfo(EnrichedURL):
+    """
+    This houses the processed URL information.
+    """
+
     url: str
     admin_url: str
