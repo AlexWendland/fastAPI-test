@@ -150,9 +150,9 @@ def forward_to_target_url(
     if not database_url:
         raise_not_found(request)
 
-    # database_url.clicks += 1
-    # database.commit()
-    # database.refresh(database_url)
+    database_url = crud.incremenet_database_url_clicks(
+        database=database, url=database_url
+    )
 
     return RedirectResponse(database_url.target_url)
 
@@ -183,3 +183,31 @@ def get_url_info(
         raise_not_found(request)
 
     return get_admin_info(database_url)
+
+
+@app.delete("/admin/{secret_key}")
+def delete_url(
+    secret_key: str, request: Request, database: Session = Depends(get_database)
+) -> None:
+    """
+    The function deletes a URL from the database.
+
+    Args:
+        secret_key (str): The secret key for the URL.
+        request (Request): The request that was made.
+        database (Session, optional): The database session. Defaults to
+            Depends(get_database).
+    """
+    database_url = database_queries.get_active_database_url_by_secret_key(
+        database=database, secret_key=secret_key
+    )
+
+    if not database_url:
+        # Not very safe as it could be used to guess the secret key.
+        raise_not_found(request)
+
+    database_url = crud.deactivate_database_url(
+        database=database, database_url=database_url
+    )
+
+    return {"detail": f"URL deleted: {database_url.target_url}"}
