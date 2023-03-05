@@ -23,3 +23,17 @@ You can always see the docs for the endpoints generated at.
 ```
 ADDRESS/docs
 ```
+
+## Goal
+
+The aim of the project is to set up an API that shortens URLS and counts the use
+of those shortened URLS. This API will have the following endpoints.
+
+| Endpoint              | HTTP Verb | Request Body | Action                 |
+| --------------------- | --------- | ------------ | ---------------------- |
+| `/`                   | `GET`     |              | "Hello World"          |
+| `/url`                | `POST`    | Target URL   | Shows Created URL Info |
+| `/{url_key}`          | `GET`     |              | Forward to URL         |
+| `/admin/{secret_key}` | `GET`     |              | Admin Info for URL     |
+| `/admin/{secret_key}` | `DELETE`  | Secrete Key  | Delete URL             |
+| `/docs`               | `GET`     |              | Swagger documentation  |
